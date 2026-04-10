@@ -57,7 +57,7 @@ export default function Hero() {
           </div>
 
           {/* centered cards */}
-          <div className="mt-10 grid max-w-5xl gap-4 sm:grid-cols-3">
+          <div className="mt-10 grid justify-center gap-4 sm:grid-cols-3 sm:mx-auto">
             {[
               {
                 title: "Structured Insights",
@@ -74,7 +74,7 @@ export default function Hero() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-white/10 bg-black/35 p-4 text-center backdrop-blur-md"
+                className="w-full rounded-2xl border border-white/10 bg-black/35 p-4 text-center backdrop-blur-md"
               >
                 <div className="text-sm font-semibold text-white">
                   {item.title}
