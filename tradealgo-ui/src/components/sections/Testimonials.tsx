@@ -5,19 +5,19 @@ import Card from "../ui/Card";
 
 const testimonials = [
   {
-    name: "James K.",
+    name: "Aisha A.",
     role: "Forex Trader",
-    text: "This is the first time my trading actually feels structured. I'm no longer guessing entries.",
+    text: "TradeAlgoSuite has completely changed the way I analyze the markets. I no longer second-guess my entries — everything is clear and structured.",
   },
   {
-    name: "Michael T.",
+    name: "Henry L.",
     role: "Swing Trader",
-    text: "The biggest difference is clarity. I now know exactly what I'm looking for before entering a trade.",
+    text: "I used to enter too early or too late. The timing confirmation and risk automation have made my trading far more consistent.",
   },
   {
-    name: "Daniel R.",
+    name: "Wilson N.",
     role: "Intraday Trader",
-    text: "Execution feels calmer. I'm not reacting anymore — I'm following a process.",
+    text: "TrendEdge alone is a game-changer, but with the Scanner and TradeManager Pro, it becomes a complete trading system. Worth every penny.",
   },
 ];
 
