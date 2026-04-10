@@ -78,7 +78,7 @@ export default function Simulation() {
   }[step];
 
   return (
-    <section id="simulation" className="px-6 py-16 sm:py-24">
+    <section id="simulation" className="hidden md:block px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl">
         {/* Visible product image showcase */}
         <div className="mx-auto mb-12 max-w-6xl">
