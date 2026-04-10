@@ -17,6 +17,34 @@ const faqs = [
     q: "Is it beginner-friendly?",
     a: "Yes, but the messaging is strongest for traders who want more discipline, clarity, and consistency.",
   },
+  {
+    q: "Do I get updates?",
+    a: "Yes — all plans include continuous updates.",
+  },
+  {
+    q: "Is support included?",
+    a: "Yes — all plans include continuous support.",
+  },
+  {
+    q: "Can I use a single licence on multiple accounts?",
+    a: "Each licence is linked to a single trading account for security and proper usage control.",
+  },
+  {
+    q: "Do I need a VPS?",
+    a: "A VPS is recommended for optimal performance and reliability, especially for active traders, but it's not strictly required. You can run TradeAlgoSuite on your local machine, but a VPS can help ensure uninterrupted operation and faster execution.",
+  },
+  {
+    q: "Is it 100% automated?",
+    a: "It is semi-automated — you remain in control while the system provides tools to support trade confirmation, execution, and risk management..",
+  },
+  {
+    q: "What markets can I use TradeAlgoSuite on?",
+    a: "TradeAlgoSuite can be used across a wide range of markets, including forex, indices, commodities (such as gold), cryptocurrencies, stocks, synthetic indices, and most CFD instruments.",
+  },
+  {
+    q: "Can this guarantee profits?",
+    a: "No tool can guarantee profits. TradeAlgoSuite provides tools designed to support a more structured approach to analysing markets, managing risk, and executing trades. Outcomes will vary depending on individual use and market conditions.",
+  },
 ];
 
 export default function FAQ() {
@@ -33,7 +61,7 @@ export default function FAQ() {
             Clear answers for traders evaluating the system.
           </h2>
           <p className="mt-5 text-body-large text-zinc-300">
-            Keep the page clean while addressing objections before the final call to action.
+            Keeping it simple and straightforward. If you have more questions, feel free to reach out via the contact form below or on our socials.
           </p>
         </div>
 
