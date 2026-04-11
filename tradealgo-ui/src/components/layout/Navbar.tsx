@@ -91,7 +91,7 @@ export default function Navbar() {
             </a>
 
             <a
-              href="#footer-contact"
+              href="/contact"
               onClick={closeMenu}
               className="rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-300 transition hover:bg-white/[0.06] hover:text-white"
             >

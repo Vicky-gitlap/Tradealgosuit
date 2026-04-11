@@ -35,8 +35,12 @@ export default function Problem() {
             Most traders do not fail from lack of strategy. They fail in the moment of execution.
           </h2>
           <p className="mt-5 text-body-large text-zinc-300">
-            This section is designed to make visitors feel seen. It highlights the practical and
-            emotional friction that comes before a more structured workflow.
+            When the market moves, clarity disappears.
+            Decisions become reactive.
+            Risk becomes inconsistent.
+            And confidence fades at the worst possible time.
+            
+            The problem isn’t knowledge. It’s consistency under pressure.
           </p>
         </div>
 
@@ -99,7 +103,7 @@ export default function Problem() {
               Where TradeAlgoSuite Comes In
             </h3>
             <p className="mt-4 text-body-large text-zinc-300">
-              TradeAlgoSuite is designed to remove noise, simplify decision-making, and bring structure to your trading process — helping you execute trades with intention, not emotion.
+              TradeAlgoSuite is designed to remove noise, simplify decision-making, and bring structure to your trading process helping you execute trades with intention, not emotion.
             </p>
           </motion.div>
 
@@ -114,7 +118,7 @@ export default function Problem() {
               From Reaction to a More Defined Trading Process
             </h3>
             <p className="mt-4 text-body-large text-zinc-300">
-              TradeAlgoSuite introduces a more defined way of trading — where decisions are guided by a consistent process rather than moment-to-moment reactions.
+              TradeAlgoSuite introduces a more defined way of trading where decisions are guided by a consistent process rather than moment-to-moment reactions.
             </p>
             <p className="mt-4 text-body-large text-zinc-300">
               Instead of navigating uncertainty across multiple tools or approaches, your workflow becomes more organised, allowing you to approach each trade with greater clarity and structure.

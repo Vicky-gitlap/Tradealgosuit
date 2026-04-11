@@ -77,21 +77,6 @@ export default function Simulation() {
   return (
     <section id="simulation" className="hidden md:block px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl">
-        {/* Visible product image showcase */}
-        <div className="mx-auto mb-12 max-w-6xl">
-          <div className="overflow-hidden rounded-[28px] border border-white/10 shadow-glow-lg">
-            <div className="relative h-[240px] sm:h-[320px] lg:h-[420px]">
-              <Image
-                src="/simulation.png"
-                alt="TradeAlgoSuite across multiple devices"
-                fill
-                priority
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-amber-300/80">
             Interactive demo
@@ -100,9 +85,9 @@ export default function Simulation() {
             How Tradealgosuit Guides Every Trade
           </h2>
           <p className="mt-5 text-body-large text-zinc-300">
-            This section should feel like a miniature product experience. The
-            visitor moves through a guided workflow instead of passively reading
-            feature copy.
+            Step through a structured trading workflow and see how each decision is guided, not guessed.
+
+Follow the flow below to see how a structured trade is built from analysis to execution.
           </p>
         </div>
 
@@ -137,7 +122,7 @@ export default function Simulation() {
                     />
                   </motion.div>
 
-                  <div className="absolute inset-0 bg-black/35" />
+                  <div className="absolute inset-0 bg-black/20" />
                   <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:28px_28px]" />
 
                   {step === "scan" && (

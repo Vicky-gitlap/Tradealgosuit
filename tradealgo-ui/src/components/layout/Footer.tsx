@@ -17,17 +17,17 @@ export default function Footer() {
           <div>
             <div className="mb-3 font-semibold text-white">Product</div>
             <div className="space-y-2 text-sm text-zinc-400">
-              <a href="#process" className="block hover:text-white">TrendEdge</a>
-              <a href="#simulation" className="block hover:text-white">Market Scanner Pro</a>
-              <a href="#pricing" className="block hover:text-white">RangePilot Pro</a>
-              <a href="#pricing" className="block hover:text-white">Web Tradecopier Pro</a>
+              <a href="#process" className="block hover:text-white">TrendEdge™</a>
+              <a href="#simulation" className="block hover:text-white">Market Scanner Pro™</a>
+              <a href="#pricing" className="block hover:text-white">RangePilot Pro™</a>
+              <a href="#pricing" className="block hover:text-white">Web Tradecopier Pro™</a>
             </div>
           </div>
 
           <div>
             <div className="mb-3 font-semibold text-white">Quick Links</div>
             <div className="space-y-2 text-sm text-zinc-400">
-              <Link href="/" className="block hover:text-white">Home</Link>
+              <Link href="#faq" className="block hover:text-white">FAQ</Link>
               <a href="/login" className="block hover:text-white">Login</a>
               <a href="#pricing" className="block hover:text-white">Pricing</a>
               <a href="/contact" className="block hover:text-white">Contacts</a>

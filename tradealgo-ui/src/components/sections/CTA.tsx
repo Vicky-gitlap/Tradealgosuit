@@ -23,7 +23,7 @@ export default function CTA() {
             <div className="relative z-10 mx-auto max-w-4xl text-center">
               <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/20 bg-amber-300/10 px-4 py-2 text-sm text-amber-200">
                 <Sparkles className="h-4 w-4" />
-                Final conversion point
+                Embrace Structure
               </div>
 
               <h2 className="mt-6 text-heading-1 text-white">

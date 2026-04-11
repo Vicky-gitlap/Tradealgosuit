@@ -89,9 +89,7 @@ export default function Pricing() {
             Choose the level of structure that fits your trading workflow.
           </h2>
           <p className="mt-5 text-body-large text-zinc-300">
-            This section is designed to make decision-making feel easier. The
-            hierarchy is clearer, the featured plan stands out more strongly, and
-            each option communicates a distinct level of control.
+            Start with clarity. Upgrade into consistency. Each plan is designed to help you move from reacting to the market to executing with confidence.
           </p>
         </div>
 

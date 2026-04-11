@@ -22,10 +22,6 @@ export default function BeforeAfter() {
                   From reaction to structure
                 </h3>
               </div>
-
-              <div className="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs text-amber-200">
-                conversion anchor
-              </div>
             </div>
 
             <div className="mt-8 grid gap-4 md:grid-cols-2">

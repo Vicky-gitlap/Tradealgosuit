@@ -34,7 +34,7 @@ export default function Features() {
             Built for Practical Trading Use
           </h2>
           <p className="mt-5 text-body-large text-zinc-300">
-            TradeAlgoSuite brings together a set of practical tools designed to support how you analyse markets, manage risk, and execute trades — within a more structured and consistent workflow.
+            TradeAlgoSuite brings together a set of practical tools designed to support how you analyse markets, manage risk, and execute trades within a more structured and consistent workflow.
           </p>
         </div>
 

@@ -20,7 +20,7 @@ export default function Process() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start end", "end start"]
+    offset: ["center center", "end center"]
   });
   const stepIndex = useTransform(scrollYProgress, [0, 1], [0, 3]);
 
