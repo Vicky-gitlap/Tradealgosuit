@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Eye, EyeOff, Mail, Lock } from "lucide-react";
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import BrandLogo from "@/components/brand/BrandLogo";
@@ -25,13 +26,13 @@ export default function Login() {
 
       {/* Back to Home */}
       <div className="absolute left-6 top-6 z-10">
-        <a
+        <Link
           href="/"
           className="inline-flex items-center gap-2 text-sm font-medium text-zinc-300 transition hover:text-amber-300"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Home
-        </a>
+        </Link>
       </div>
 
       <div className="flex min-h-screen items-center justify-center px-6 py-12">
@@ -147,7 +148,7 @@ export default function Login() {
                 <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="bg-black px-2 text-zinc-400">Don't have an account?</span>
+                <span className="bg-black px-2 text-zinc-400">Don&apos;t have an account?</span>
               </div>
             </div>
 

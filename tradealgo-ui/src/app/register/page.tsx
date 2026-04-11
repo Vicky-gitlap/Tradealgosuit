@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -24,16 +27,35 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-black px-6 py-16 sm:py-24">
-      <div className="mx-auto max-w-md">
+    <div className="min-h-screen bg-black">
+      {/* Background */}
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(212,175,55,0.14),_transparent_30%),radial-gradient(circle_at_80%_20%,_rgba(34,197,94,0.10),_transparent_22%),linear-gradient(180deg,_#070707,_#040404_45%,_#070707)]" />
+
+      {/* Back to Home */}
+      <div className="absolute left-6 top-6 z-10">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-zinc-300 transition hover:text-amber-300"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Home
+        </Link>
+      </div>
+
+      <div className="flex min-h-screen items-center justify-center px-6 py-12">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="w-full max-w-md"
         >
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">TradeAlgoSuite</h1>
-            <p className="text-zinc-400">
+          {/* Logo */}
+          <div className="mb-8 flex justify-center">
+            <BrandLogo showText={false} size={112} />
+          </div>
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-white">TradeAlgoSuite</h1>
+            <p className="mt-2 text-sm text-zinc-400">
               Start your journey to structured trading today.
             </p>
           </div>

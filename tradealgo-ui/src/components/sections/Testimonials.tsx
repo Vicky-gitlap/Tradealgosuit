@@ -50,7 +50,7 @@ export default function Testimonials() {
               viewport={{ once: true }}
             >
               <Card className="h-full p-6">
-                <p className="text-sm leading-7 text-zinc-300">"{t.text}"</p>
+                <p className="text-sm leading-7 text-zinc-300">&ldquo;{t.text}&rdquo;</p>
 
                 <div className="mt-6">
                   <div className="text-sm font-semibold text-white">

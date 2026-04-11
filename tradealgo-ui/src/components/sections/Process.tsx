@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import {
   BarChart3,
   ShieldCheck,
@@ -16,6 +16,22 @@ type StepKey = "analyse" | "plan" | "execute" | "manage";
 
 export default function Process() {
   const [activeStep, setActiveStep] = useState<StepKey>("analyse");
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  const stepIndex = useTransform(scrollYProgress, [0, 1], [0, 3]);
+
+  useEffect(() => {
+    const unsubscribe = stepIndex.onChange((value) => {
+      const index = Math.floor(value);
+      const stepKeys: StepKey[] = ["analyse", "plan", "execute", "manage"];
+      setActiveStep(stepKeys[index] || "analyse");
+    });
+    return unsubscribe;
+  }, [stepIndex]);
 
   const steps = useMemo(
     () => [
@@ -71,7 +87,7 @@ export default function Process() {
   const current = steps[activeIndex];
 
   return (
-    <section id="process" className="px-6 py-16 sm:py-24">
+    <section id="process" ref={sectionRef} className="px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-amber-300/80">
@@ -102,7 +118,7 @@ export default function Process() {
             </div>
 
             <div className="space-y-4">
-              {steps.map((step, index) => {
+              {steps.map((step) => {
                 const Icon = step.icon;
                 const isActive = step.key === activeStep;
 

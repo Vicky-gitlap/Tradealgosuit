@@ -23,7 +23,7 @@ export default function Navbar() {
             { label: "Home", href: "#" },
             { label: "How it works", href: "#process" },
             { label: "Products", href: "#pricing" },
-            { label: "Contact", href: "#footer-contact" },
+            { label: "Contact", href: "/contact" },
           ].map((item) => (
             <a
               key={item.label}

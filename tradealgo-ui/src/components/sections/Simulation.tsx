@@ -5,7 +5,6 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  CheckCircle2,
   Crosshair,
   ShieldCheck,
   Target,
@@ -18,7 +17,7 @@ type StepKey = "scan" | "plan" | "execute" | "manage";
 
 export default function Simulation() {
   const [step, setStep] = useState<StepKey>("scan");
-  const [risk, setRisk] = useState(1);
+  const [risk] = useState(1);
 
   const steps = useMemo(
     () => [
@@ -57,9 +56,7 @@ export default function Simulation() {
   const currentIndex = steps.findIndex((s) => s.key === step);
   const current = steps[currentIndex];
 
-  const stopLossPips = 24;
   const rewardRatio = 2.4;
-  const takeProfitPips = Number((stopLossPips * rewardRatio).toFixed(1));
   const accountSize = 10000;
   const riskAmount = Number(((risk / 100) * accountSize).toFixed(2));
 
