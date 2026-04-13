@@ -128,12 +128,12 @@ export default function Login() {
                     Remember me
                   </label>
                 </div>
-                <a
-                  href="#"
+                <Link
+                  href="/dashboard"
                   className="text-sm font-medium text-amber-400 hover:text-amber-300"
                 >
-                  Forgot password?
-                </a>
+                  Go to Dashboard
+                </Link>
               </div>
 
               {/* Submit Button */}
