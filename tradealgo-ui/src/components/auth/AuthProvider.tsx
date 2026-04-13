@@ -4,9 +4,8 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
-  type ReactNode,
+  ReactNode,
 } from "react";
 
 type User = {
@@ -19,54 +18,46 @@ type User = {
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  login: (user: User) => void;
-  logout: () => void;
+  refreshUser: () => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
-const STORAGE_KEY = "tradealgosuite-auth";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  async function refreshUser() {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        setUser(JSON.parse(raw));
-      }
+      const res = await fetch("/api/auth/me", { cache: "no-store" });
+      const data = await res.json();
+      setUser(data.user);
     } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
+      setUser(null);
     } finally {
       setLoading(false);
     }
+  }
+
+  async function logout() {
+    await fetch("/api/auth/logout", { method: "POST" });
+    setUser(null);
+  }
+
+  useEffect(() => {
+    refreshUser();
   }, []);
 
-  const value = useMemo(
-    () => ({
-      user,
-      loading,
-      login: (nextUser: User) => {
-        setUser(nextUser);
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser));
-      },
-      logout: () => {
-        setUser(null);
-        window.localStorage.removeItem(STORAGE_KEY);
-      },
-    }),
-    [user, loading]
+  return (
+    <AuthContext.Provider value={{ user, loading, refreshUser, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within AuthProvider");
-  }
-  return context;
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
+  return ctx;
 }

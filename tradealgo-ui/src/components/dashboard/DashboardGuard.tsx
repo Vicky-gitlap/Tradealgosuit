@@ -13,7 +13,7 @@ export default function DashboardGuard({ children }: Props) {
   const { user, loading } = useAuth();
 
   useEffect(() => {
-    const bypass = true; // TEMP: keep true during UI testing
+    const bypass = false; // TEMP: keep true during UI testing
 
     if (!loading && !user && !bypass) {
       router.replace("/login");

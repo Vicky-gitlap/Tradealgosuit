@@ -37,6 +37,7 @@ export default function PerformanceChartCard() {
   const chartData = useMemo(() => {
     if (range === "7D") return data.chart.slice(0, 7);
     if (range === "30D") return data.chart;
+
     return [...data.chart, ...data.chart].map((item, index) => ({
       ...item,
       name: `P${index + 1}`,
@@ -51,7 +52,9 @@ export default function PerformanceChartCard() {
           <div className="text-xs uppercase tracking-[0.22em] text-zinc-500">
             Performance
           </div>
-          <div className="mt-1 text-xl font-semibold text-white">Equity Curve</div>
+          <div className="mt-1 text-xl font-semibold text-white">
+            Equity Curve
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -81,10 +84,18 @@ export default function PerformanceChartCard() {
             title="Unable to load performance"
             description="Sample dashboard performance data could not be loaded."
           />
+        ) : chartData.length === 0 ? (
+          <EmptyState
+            title="No performance data yet"
+            description="Performance data will appear here once snapshots are available."
+          />
         ) : (
-          <div className="h-[300px]">
+          <div className="relative h-[300px] w-full min-h-[300px] min-w-0">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
+              <AreaChart
+                data={chartData}
+                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+              >
                 <defs>
                   <linearGradient id="equityFill" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.35} />
@@ -92,9 +103,24 @@ export default function PerformanceChartCard() {
                   </linearGradient>
                 </defs>
 
-                <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-                <XAxis dataKey="name" stroke="rgba(255,255,255,0.4)" fontSize={12} />
-                <YAxis stroke="rgba(255,255,255,0.4)" fontSize={12} />
+                <CartesianGrid
+                  stroke="rgba(255,255,255,0.06)"
+                  vertical={false}
+                />
+                <XAxis
+                  dataKey="name"
+                  stroke="rgba(255,255,255,0.4)"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis
+                  stroke="rgba(255,255,255,0.4)"
+                  fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
+                  width={50}
+                />
                 <Tooltip
                   contentStyle={{
                     background: "rgba(5,7,11,0.95)",

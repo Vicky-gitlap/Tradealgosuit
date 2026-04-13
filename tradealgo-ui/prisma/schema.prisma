@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  TRIAL
+}
+
+enum TradeDirection {
+  BUY
+  SELL
+}
+
+enum TradeStatus {
+  OPEN
+  CLOSED
+}
+
+model User {
+  id              String              @id @default(cuid())
+  name            String
+  email           String              @unique
+  passwordHash    String
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  subscriptions   Subscription[]
+  tradingAccounts TradingAccount[]
+  settings        UserSetting?
+}
+
+model Subscription {
+  id            String             @id @default(cuid())
+  userId        String
+  packageType   String
+  status        SubscriptionStatus @default(TRIAL)
+  renewalDate   DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  user          User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TradingAccount {
+  id                String                @id @default(cuid())
+  userId            String
+  broker            String?
+  platform          String                // MT4 / MT5
+  accountNumber     String
+  accountName       String?
+  balance           Float                 @default(0)
+  equity            Float                 @default(0)
+  margin            Float                 @default(0)
+  freeMargin        Float                 @default(0)
+  currency          String                @default("USD")
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  user              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  riskSetting       RiskSetting?
+  trades            Trade[]
+  snapshots         PerformanceSnapshot[]
+
+  @@unique([platform, accountNumber])
+}
+
+model RiskSetting {
+  id                  String          @id @default(cuid())
+  tradingAccountId    String          @unique
+  dailyDrawdownLimit  Float           @default(5)
+  maxDrawdownLimit    Float           @default(10)
+  riskPerTrade        Float           @default(1)
+  maxOpenTrades       Int             @default(3)
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+
+  tradingAccount      TradingAccount  @relation(fields: [tradingAccountId], references: [id], onDelete: Cascade)
+}
+
+model Trade {
+  id                String          @id @default(cuid())
+  tradingAccountId  String
+  ticket            String
+  symbol            String
+  direction         TradeDirection
+  status            TradeStatus     @default(CLOSED)
+  lots              Float           @default(0)
+  entryPrice        Float?
+  stopLoss          Float?
+  takeProfit        Float?
+  openTime          DateTime?
+  closeTime         DateTime?
+  profitLoss        Float           @default(0)
+  rr                Float?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  tradingAccount    TradingAccount  @relation(fields: [tradingAccountId], references: [id], onDelete: Cascade)
+
+  @@unique([tradingAccountId, ticket])
+}
+
+model PerformanceSnapshot {
+  id                String          @id @default(cuid())
+  tradingAccountId  String
+  snapshotDate      DateTime
+  balance           Float           @default(0)
+  equity            Float           @default(0)
+  drawdown          Float           @default(0)
+  dailyPnL          Float           @default(0)
+  createdAt         DateTime        @default(now())
+
+  tradingAccount    TradingAccount  @relation(fields: [tradingAccountId], references: [id], onDelete: Cascade)
+}
+
+model UserSetting {
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  compactCards      Boolean   @default(true)
+  renewalEmails     Boolean   @default(true)
+  riskWarnings      Boolean   @default(true)
+  reviewReminders   Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

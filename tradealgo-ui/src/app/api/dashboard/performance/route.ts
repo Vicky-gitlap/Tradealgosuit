@@ -1,22 +1,53 @@
 import { NextResponse } from "next/server";
+import { getCurrentUserFromCookie } from "@/lib/server-auth";
 
 export async function GET() {
+  const user = await getCurrentUserFromCookie();
+
+  if (!user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const account = user.tradingAccounts[0];
+
+  if (!account) {
+    return NextResponse.json({
+      chart: [],
+      trades: [],
+    });
+  }
+
+  const fullAccount = await (await import("@/lib/prisma")).prisma.tradingAccount.findUnique({
+    where: { id: account.id },
+    include: {
+      snapshots: {
+        orderBy: { snapshotDate: "asc" },
+      },
+      trades: {
+        orderBy: { openTime: "desc" },
+      },
+    },
+  });
+
   return NextResponse.json({
-    chart: [
-      { name: "Day 1", equity: 50000 },
-      { name: "Day 2", equity: 50320 },
-      { name: "Day 3", equity: 50180 },
-      { name: "Day 4", equity: 50740 },
-      { name: "Day 5", equity: 51010 },
-      { name: "Day 6", equity: 51480 },
-      { name: "Day 7", equity: 52430 },
-    ],
-    trades: [
-      { id: 1, pair: "EURUSD", type: "Buy", date: "12 Jan", result: "+1.8R", status: "Win" },
-      { id: 2, pair: "GBPUSD", type: "Sell", date: "11 Jan", result: "-0.7R", status: "Loss" },
-      { id: 3, pair: "XAUUSD", type: "Buy", date: "10 Jan", result: "+2.4R", status: "Win" },
-      { id: 4, pair: "NAS100", type: "Sell", date: "09 Jan", result: "+1.1R", status: "Win" },
-      { id: 5, pair: "USDJPY", type: "Buy", date: "08 Jan", result: "-1.0R", status: "Loss" },
-    ],
+    chart:
+      fullAccount?.snapshots.map((row, index) => ({
+        name: `Day ${index + 1}`,
+        equity: row.equity,
+      })) ?? [],
+    trades:
+      fullAccount?.trades.map((trade, index) => ({
+        id: index + 1,
+        pair: trade.symbol,
+        type: trade.direction === "BUY" ? "Buy" : "Sell",
+        date: trade.openTime
+          ? trade.openTime.toLocaleDateString("en-GB", {
+              day: "2-digit",
+              month: "short",
+            })
+          : "N/A",
+        result: `${trade.rr && trade.rr > 0 ? "+" : ""}${trade.rr ?? 0}R`,
+        status: trade.profitLoss >= 0 ? "Win" : "Loss",
+      })) ?? [],
   });
 }

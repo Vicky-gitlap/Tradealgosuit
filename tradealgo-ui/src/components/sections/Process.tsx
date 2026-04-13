@@ -20,17 +20,20 @@ export default function Process() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["center center", "end center"]
+    offset: ["center center", "end center"],
   });
+
   const stepIndex = useTransform(scrollYProgress, [0, 1], [0, 3]);
 
   useEffect(() => {
-    const unsubscribe = stepIndex.onChange((value) => {
-      const index = Math.floor(value);
-      const stepKeys: StepKey[] = ["analyse", "plan", "execute", "manage"];
+    const stepKeys: StepKey[] = ["analyse", "plan", "execute", "manage"];
+
+    const unsubscribe = stepIndex.on("change", (value) => {
+      const index = Math.max(0, Math.min(3, Math.floor(value)));
       setActiveStep(stepKeys[index] || "analyse");
     });
-    return unsubscribe;
+
+    return () => unsubscribe();
   }, [stepIndex]);
 
   const steps = useMemo(
@@ -87,7 +90,11 @@ export default function Process() {
   const current = steps[activeIndex];
 
   return (
-    <section id="process" ref={sectionRef} className="px-6 py-16 sm:py-24">
+    <section
+      id="process"
+      ref={sectionRef}
+      className="relative px-6 py-16 sm:py-24"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-amber-300/80">
@@ -103,7 +110,6 @@ export default function Process() {
         </div>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
-          {/* LEFT PANEL */}
           <Card className="border-white/10 bg-white/[0.02] p-6 shadow-card">
             <div className="mb-5 flex items-center justify-between">
               <div>
@@ -174,7 +180,9 @@ export default function Process() {
 
                     <ArrowRight
                       className={`mt-1 h-4 w-4 shrink-0 transition ${
-                        isActive ? "text-white" : "text-zinc-500 group-hover:text-zinc-300"
+                        isActive
+                          ? "text-white"
+                          : "text-zinc-500 group-hover:text-zinc-300"
                       }`}
                     />
                   </button>
@@ -183,7 +191,6 @@ export default function Process() {
             </div>
           </Card>
 
-          {/* RIGHT PANEL */}
           <Card className="overflow-hidden border-amber-300/15 bg-white/[0.02] p-6 shadow-glow">
             <div className="mb-4 flex items-center justify-between">
               <div>
@@ -194,6 +201,7 @@ export default function Process() {
                   {current.title} stage
                 </div>
               </div>
+
               <div className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-zinc-300">
                 {current.status}
               </div>
@@ -203,11 +211,10 @@ export default function Process() {
               <div className="absolute inset-0 opacity-20 [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:28px_28px]" />
               <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-amber-300/5 to-transparent" />
 
-              {/* clean step line - no green */}
-              <div className="relative z-10 px-2 pt-6 pb-4 sm:px-4 sm:pt-8">
+              <div className="relative z-10 px-2 pb-4 pt-6 sm:px-4 sm:pt-8">
                 <div className="relative flex items-center justify-between">
-                  {/* neutral/amber connector */}
                   <div className="absolute left-[7%] right-[7%] top-6 h-px bg-white/10 sm:left-[8%] sm:right-[8%]" />
+
                   <motion.div
                     key={activeStep}
                     initial={{ width: 0 }}

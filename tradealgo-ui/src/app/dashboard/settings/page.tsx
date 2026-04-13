@@ -1,20 +1,81 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DashboardPageHeader from "@/components/dashboard/DashboardPageHeader";
 import DashboardCard from "@/components/dashboard/DashboardCard";
 import Button from "@/components/ui/Button";
-import { usePersistentSettings } from "@/components/dashboard/usePersistentSettings";
 import { useAuth } from "@/components/auth/AuthProvider";
 
 type Tab = "profile" | "preferences";
 
+type SettingsState = {
+  fullName: string;
+  email: string;
+  renewalEmails: boolean;
+  riskWarnings: boolean;
+  reviewReminders: boolean;
+  compactCards: boolean;
+};
+
+const initialState: SettingsState = {
+  fullName: "",
+  email: "",
+  renewalEmails: true,
+  riskWarnings: true,
+  reviewReminders: true,
+  compactCards: true,
+};
+
 export default function SettingsPage() {
   const [tab, setTab] = useState<Tab>("profile");
-  const { settings, setSettings, ready } = usePersistentSettings();
-  const { login, user } = useAuth();
+  const [settings, setSettings] = useState<SettingsState>(initialState);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const { refreshUser } = useAuth();
 
-  if (!ready) {
+  useEffect(() => {
+    async function load() {
+      try {
+        const res = await fetch("/api/dashboard/settings", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          setLoading(false);
+          return;
+        }
+
+        const data = await res.json();
+        setSettings(data);
+      } catch {
+        // keep defaults
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    load();
+  }, []);
+
+  async function saveSettings() {
+    setSaving(true);
+
+    try {
+      const res = await fetch("/api/dashboard/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(settings),
+      });
+
+      if (res.ok) {
+        await refreshUser();
+      }
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (loading) {
     return (
       <div className="grid min-h-[40vh] place-items-center text-sm text-zinc-500">
         Loading settings...
@@ -59,18 +120,24 @@ export default function SettingsPage() {
           <div className="text-xs uppercase tracking-[0.22em] text-zinc-500">
             Profile
           </div>
+
           <div className="mt-2 text-xl font-semibold text-white">
             Account Details
           </div>
 
           <div className="mt-6 space-y-4">
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">Full Name</label>
+              <label className="mb-2 block text-sm text-zinc-300">
+                Full Name
+              </label>
               <input
                 type="text"
                 value={settings.fullName}
                 onChange={(e) =>
-                  setSettings((prev) => ({ ...prev, fullName: e.target.value }))
+                  setSettings((prev) => ({
+                    ...prev,
+                    fullName: e.target.value,
+                  }))
                 }
                 className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none focus:border-amber-300/40"
               />
@@ -82,14 +149,19 @@ export default function SettingsPage() {
                 type="email"
                 value={settings.email}
                 onChange={(e) =>
-                  setSettings((prev) => ({ ...prev, email: e.target.value }))
+                  setSettings((prev) => ({
+                    ...prev,
+                    email: e.target.value,
+                  }))
                 }
                 className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none focus:border-amber-300/40"
               />
             </div>
 
             <div>
-              <label className="mb-2 block text-sm text-zinc-300">Password</label>
+              <label className="mb-2 block text-sm text-zinc-300">
+                Password
+              </label>
               <input
                 type="password"
                 value="password"
@@ -98,18 +170,8 @@ export default function SettingsPage() {
               />
             </div>
 
-            <Button
-              className="w-full sm:w-auto"
-              onClick={() => {
-                login({
-                  id: user?.id ?? "temp-user",
-                  name: settings.fullName,
-                  email: settings.email,
-                  tier: user?.tier ?? "Elite Account",
-                });
-              }}
-            >
-              Save Changes
+            <Button className="w-full sm:w-auto" onClick={saveSettings}>
+              {saving ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </DashboardCard>
@@ -118,6 +180,7 @@ export default function SettingsPage() {
           <div className="text-xs uppercase tracking-[0.22em] text-zinc-500">
             Preferences
           </div>
+
           <div className="mt-2 text-xl font-semibold text-white">
             Dashboard Preferences
           </div>
@@ -148,7 +211,9 @@ export default function SettingsPage() {
                 <span className="text-sm text-zinc-300">{item.label}</span>
                 <input
                   type="checkbox"
-                  checked={settings[item.key as keyof typeof settings] as boolean}
+                  checked={Boolean(
+                    settings[item.key as keyof SettingsState]
+                  )}
                   onChange={(e) =>
                     setSettings((prev) => ({
                       ...prev,
@@ -159,6 +224,12 @@ export default function SettingsPage() {
                 />
               </label>
             ))}
+          </div>
+
+          <div className="mt-6">
+            <Button onClick={saveSettings}>
+              {saving ? "Saving..." : "Save Preferences"}
+            </Button>
           </div>
         </DashboardCard>
       )}
